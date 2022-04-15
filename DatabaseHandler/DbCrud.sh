@@ -26,6 +26,10 @@ function insertInvoice() {
 function insertInvoiceDetails() {
   sqlStatement=" insert into Bills.OrderDetails(orderId,productName,price,quantity) values ($3,\"$4\",$5,$6)"
   mysql -u "$1" -p"$2" -e "$sqlStatement"
+  if [ $? -eq 1 ]; then
+    return 1
+  fi
+  return 0
 }
 
 #######
@@ -35,11 +39,30 @@ function insertInvoiceDetails() {
 ##      return        1    order not created
 
 function createOrder() {
-  # shellcheck disable=SC2086
-  insertInvoice "$1" $2 "$3" "$4" "$5"
+  insertInvoice "$1" "$2" "$3" "$4" "$5"
   insertInvoiceDetails "$1" "$2" "$3" "$6" "$7" "$8"
   if [ $? -eq 1 ]; then
     return 1
   fi
   return 0
 }
+
+function deleteOrder() {
+  sqlStatement="delete from Bills.orderDetails where orderId = $3;delete from Bills.Order where  id = $3"
+  mysql -u "$1" -p"$2" -e "$sqlStatement"
+  if [ $? -eq 1 ]; then
+    return 1
+  fi
+  return 0
+}
+
+function displayOrder() {
+  sqlStatement="select OD.orderId,OD.productName,OD.price,OD.quantity from Bills.Orders as o
+                  inner join Bills.OrderDetails OD on o.id = OD.orderId where OD.orderId = $3"
+  mysql -u "$1" -p"$2" -e "$sqlStatement"
+  if [ $? -eq 1 ]; then
+    return 1
+  fi
+  return 0
+}
+displayOrder root Mohamed\$5265104@D 1
