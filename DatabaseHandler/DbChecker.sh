@@ -74,5 +74,3 @@ function isInvoiceHasDetails() {
   fi
   return 0
 }
-
-isInvoiceHasDetails root Mohamed\$5265104@D 1000
