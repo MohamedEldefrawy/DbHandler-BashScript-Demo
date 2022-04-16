@@ -1,8 +1,5 @@
 #!/bin/bash
-source DbChecker.sh
 ################ Contains all CRUD  functions of the database
-
-isDatabaseExist root Mohamed\$5265104@D Bills
 
 sqlStatement=""
 
@@ -47,6 +44,11 @@ function createOrder() {
   return 0
 }
 
+#######
+## function create order and insert data into Orders and OrdersDetails tables
+##  Takes  mysql username password,orderId,date,employeeName,productBName,price,quantity
+##      return        0    order created
+##      return        1    order not created
 function deleteOrder() {
   sqlStatement="delete from Bills.orderDetails where orderId = $3;delete from Bills.Order where  id = $3"
   mysql -u "$1" -p"$2" -e "$sqlStatement"
@@ -56,6 +58,10 @@ function deleteOrder() {
   return 0
 }
 
+#######
+## function display selected Invoice
+##      return        0    order displayed
+##      return        1    mysql credentials wrong
 function displayOrder() {
   sqlStatement="select OD.orderId,OD.productName,OD.price,OD.quantity from Bills.Orders as o
                   inner join Bills.OrderDetails OD on o.id = OD.orderId where OD.orderId = $3"
@@ -65,4 +71,17 @@ function displayOrder() {
   fi
   return 0
 }
-displayOrder root Mohamed\$5265104@D 1
+
+#######
+## function display orders
+##      return        0    order displayed
+##      return        1    mysql credentials wrong
+function displayOrders() {
+  sqlStatement="select OD.orderId,OD.productName,OD.price,OD.quantity from Bills.Orders as o
+                  inner join Bills.OrderDetails OD on o.id = OD.orderId"
+  mysql -u "$1" -p"$2" -e "$sqlStatement"
+  if [ $? -eq 1 ]; then
+    return 1
+  fi
+  return 0
+}

@@ -2,7 +2,6 @@
 ################ Contains all functions that check the existence of the database and tables
 
 sqlStatement=""
-
 #######
 ## function take mysql username,password database name
 ##      return             0    database created
@@ -16,7 +15,6 @@ function isDatabaseExist() {
   return 0
 }
 
-#isDatabaseExist root Mohamed\$5265104@D Bills
 
 #######
 ## function take mysql username,password
