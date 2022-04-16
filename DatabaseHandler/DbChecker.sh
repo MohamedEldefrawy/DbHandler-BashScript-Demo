@@ -15,28 +15,28 @@ function isDatabaseExist() {
   return 0
 }
 
-
 #######
 ## function take mysql username,password
 ##      return             0    tables created
 ##      return             1    username or password wrong
 function isTableExist() {
-  sqlStatement="create table if not exists Bills.Orders
-              (
-                  id           int primary key,
-                  orderDate    date,
-                  employeeName varchar(50)
-              ); CREATE TABLE if not exists Bills.OrderDetails
-                 (
-                     id          int NOT NULL,
-                     orderId     int         DEFAULT NULL,
-                     productName varchar(50) DEFAULT NULL,
-                     price       int         DEFAULT NULL,
-                     quantity    int         DEFAULT NULL,
-                     PRIMARY KEY (id),
-                     KEY orderId (orderId),
-                     CONSTRAINT OrderDetails_ibfk_1 FOREIGN KEY (orderId) REFERENCES Orders (id)
-                 );"
+  sqlStatement="CREATE TABLE IF NOT EXISTS Bills.Orders
+                (
+                    id           int primary key,
+                    orderDate    date,
+                    employeeName varchar(50)
+                );
+                CREATE TABLE IF NOT EXISTS Bills.OrderDetails
+                (
+                    id          int NOT NULL AUTO_INCREMENT,
+                    orderId     int         DEFAULT NULL,
+                    productName varchar(50) DEFAULT NULL,
+                    price       int         DEFAULT NULL,
+                    quantity    int         DEFAULT NULL,
+                    PRIMARY KEY (id),
+                    KEY orderId (orderId),
+                    CONSTRAINT OrderDetails_ibfk_1 FOREIGN KEY (orderId) REFERENCES Orders (id)
+                );"
   mysql -u "$1" -p"$2" -e "$sqlStatement"
   if [ $? -eq 1 ]; then
     return 1
@@ -67,7 +67,7 @@ function isInvoiceHasDetails() {
   local count=$(mysql -u "$1" -p"$2" -e "$sqlStatement")
   count=$(echo "$count" | tail -1)
 
-  if [ $count -eq 0 ]; then
+  if [ "$count" -eq 0 ]; then
     return 1
   fi
   return 0

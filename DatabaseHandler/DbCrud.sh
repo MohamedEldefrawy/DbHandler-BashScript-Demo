@@ -50,7 +50,7 @@ function createOrder() {
 ##      return        0    order created
 ##      return        1    order not created
 function deleteOrder() {
-  sqlStatement="delete from Bills.orderDetails where orderId = $3;delete from Bills.Order where  id = $3"
+  sqlStatement="delete from Bills.OrderDetails where orderId = $3;delete from Bills.Orders where  id = $3"
   mysql -u "$1" -p"$2" -e "$sqlStatement"
   if [ $? -eq 1 ]; then
     return 1
