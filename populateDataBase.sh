@@ -1,5 +1,5 @@
 #! /bin/bash
-############## Script parse text file saperated by spaces and insert it into database
+############## Script parse text file separated by spaces and insert it into database
 ### Exit codes
 ###             0: Success
 ###             4: Missing parameter
